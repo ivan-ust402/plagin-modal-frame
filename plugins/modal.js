@@ -36,11 +36,11 @@ function _createModal(options) {
     const modal = document.createElement('div')
     modal.classList.add('vmodal')
     modal.insertAdjacentHTML('afterbegin', `        
-        <div class="modal-overlay">
+        <div class="modal-overlay" data-close="true">
             <div class="modal-window" style="width: ${options.width || DEFAULT_WIDTH}">
                 <div class="modal-header">
                     <span class="modal-title">${options.title || 'Окно'}</span>
-                    ${options.closable ? `<span class="modal-close">&times;</span>` : ''}
+                    ${options.closable ? `<span class="modal-close" data-close="true">&times;</span>` : ''}
                 </div>
                 <div class="modal-body" data-content>
                     ${options.content || ''}
@@ -69,19 +69,17 @@ $.modal = function(options) {
             if (destroyed) {
                 return console.log('Modal is destroyed');
             }
+            $modal.addEventListener('click', listener)
             !closing && $modal.classList.add('open')
-            overlay.setAttribute('data-close','true')
-            modalClose.setAttribute('data-close','true')
         },
         close() {
             closing = true
             $modal.classList.remove('open')
             $modal.classList.add('hide')
+            $modal.removeEventListener('click', listener)
             setTimeout(() => {
                 $modal.classList.remove('hide')
                 closing = false
-                overlay.setAttribute('data-close','')
-                modalClose.setAttribute('data-close','')
             }, ANIMATION_SPEED)},
     }
 
@@ -91,8 +89,7 @@ $.modal = function(options) {
         }
     }
 
-    $modal.addEventListener('click', listener)
-
+    
     return Object.assign(modal, {
         destroy() {
             $modal.parentNode.removeChild($modal) //обычный способ удаления ноды из дом дерева
