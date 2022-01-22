@@ -31,20 +31,6 @@ function render() {
 
 render()
 
-const confirmModal = $.modal({
-    title: 'Вы уверены?',
-    closable: true,
-    width: '400px',
-    footerButtons: [
-        {text: 'Отменить', type: 'secondary', handler() {
-            confirmModal.close()
-        }},
-        {text: 'Удалить', type: 'danger', handler() {
-            confirmModal.close()
-        }}
-    ]
-}) 
-
 const priceModal = $.modal({
     title: 'Цена на товар',
     closable: true,
@@ -56,7 +42,20 @@ const priceModal = $.modal({
     ]
 }) 
 
-
+//Так не правильно, потому что мы не можем добавить нестандартное  поведение кнопке удалить поэтому создадим плагин confirm
+// const confirmModal = $.modal({
+//     title: 'Вы уверены?',
+//     closable: true,
+//     width: '400px',
+//     footerButtons: [
+//         {text: 'Отменить', type: 'secondary', handler() {
+//             confirmModal.close()
+//         }},
+//         {text: 'Удалить', type: 'danger', handler() {
+//             confirmModal.close()
+//         }}
+//     ]
+// }) 
 
 document.addEventListener('click', event => {
     //чтобы по хэшу не прыгал наверх при нажатии на кнопку отменяем дефолтное поведение
@@ -70,11 +69,11 @@ document.addEventListener('click', event => {
             <p>Цена на ${fruit.title}: <strong>${fruit.price}$</strong></p>
         `)
         priceModal.open()
-    } else if (btnType === 'remove') {
-        confirmModal.setContent(`
-            <p>Вы удаляете: <strong>${fruit.title}</strong></p>
-        `)
-        confirmModal.open()
-    }
+    } //else if (btnType === 'remove') {
+    //     confirmModal.setContent(`
+    //         <p>Вы удаляете: <strong>${fruit.title}</strong></p>
+    //     `)
+    //     confirmModal.open()
+    // }
 })
 
