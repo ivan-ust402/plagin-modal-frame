@@ -1,6 +1,11 @@
 //Файл для ведения разработки, отвечает за само приложение, подключаем крайним
 //обращаемся к условной библиотеке $(в нашем случае всего лишь объект)
-const fruits = [
+// let fruits = [
+//     {id:1, title: 'Яблоки', price: 20, img: 'https://e1.edimdoma.ru/data/ingredients/0000/2374/2374-ed4_wide.jpg?1487746348'},
+//     {id:2, title: 'Апельсины', price: 30, img: 'https://grandkulinar.ru/uploads/posts/2014-07/1404571972_apelsiny.jpg'},
+//     {id:3, title: 'Манго', price: 40, img: 'https://itsfresh.ru/upload/iblock/72f/72fe44b4c729ed570369b34eb9ac8423.jpg'}
+// ]
+let fruits = [
     {id:1, title: 'Яблоки', price: 20, img: 'https://e1.edimdoma.ru/data/ingredients/0000/2374/2374-ed4_wide.jpg?1487746348'},
     {id:2, title: 'Апельсины', price: 30, img: 'https://grandkulinar.ru/uploads/posts/2014-07/1404571972_apelsiny.jpg'},
     {id:3, title: 'Манго', price: 40, img: 'https://itsfresh.ru/upload/iblock/72f/72fe44b4c729ed570369b34eb9ac8423.jpg'}
@@ -69,11 +74,19 @@ document.addEventListener('click', event => {
             <p>Цена на ${fruit.title}: <strong>${fruit.price}$</strong></p>
         `)
         priceModal.open()
-    } //else if (btnType === 'remove') {
+    } else if (btnType === 'remove') {
     //     confirmModal.setContent(`
     //         <p>Вы удаляете: <strong>${fruit.title}</strong></p>
     //     `)
     //     confirmModal.open()
-    // }
+        $.confirm({
+            title: 'Вы уверены?',
+            content: `<p>Вы удаляете: <strong>${fruit.title}</strong></p>`
+        }).then(() => {
+            fruits = fruits.filter(f => f.id !== id)
+            render()
+        }).catch(() => {
+            console.log('Cancel');
+        })
+    }
 })
-
